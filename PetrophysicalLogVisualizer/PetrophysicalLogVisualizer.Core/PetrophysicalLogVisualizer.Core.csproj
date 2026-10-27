@@ -44,6 +44,8 @@
     <Compile Include="LasData.cs" />
     <Compile Include="LasDataParser.cs" />
     <Compile Include="LasHeader.cs" />
+    <Compile Include="LasLoader.cs" />
+    <Compile Include="LoadReport.cs" />
     <Compile Include="LasHeaderParser.cs" />
     <Compile Include="Placeholder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
