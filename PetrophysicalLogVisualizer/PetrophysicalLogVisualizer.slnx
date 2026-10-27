@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="PetrophysicalLogVisualizer.App/PetrophysicalLogVisualizer.App.csproj" />
+  <Project Path="PetrophysicalLogVisualizer.Core/PetrophysicalLogVisualizer.Core.csproj" />
+  <Project Path="PetrophysicalLogVisualizer.Tests/PetrophysicalLogVisualizer.Tests.csproj" />
+</Solution>

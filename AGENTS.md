@@ -7,9 +7,9 @@
 4. **Stay in scope** — any task outside the IN list of PROJECT.md must be approved by the project owner first. Never guess and act.
 5. **Never commit on your own — always ask** — propose (files + commit message) and wait for the owner's "ok commit" (one reply = one commit). Split bigger work into small tasks: do ONE task → report (files changed + real run output) → wait for ok before the next — never deliver one huge unreviewed batch (no black box).
 
-## Git workflow (assignment mode — a reviewer should read the commit log as a story)
+## Git workflow
 - **1 commit = 1 purpose**, explainable in a single sentence — if you need the word "and", it's still too big: split it.
-- Before proposing any commit: **run build/tests until they pass** — every commit must be in a working state (a reviewer can check out any point in history).
+- Before proposing any commit: **run build/tests until they pass** — every commit must be in a working state.
 - Propose (files + message) → wait for "ok commit" per rule 5 → `git add <named files>` — **never `git add .`** (it mixes several concerns into one blob).
 - Message format: `<type>: <what>` + a body explaining why — type is feat/fix/test/docs/refactor/chore. Task IDs (T#) are optional and only used when SSOT.md is committed (see below).
 - **Commits carry the owner's name only** — no `Co-Authored-By` or other AI trailers. AI usage is disclosed in the README (or wherever the project requires), not in commit metadata.

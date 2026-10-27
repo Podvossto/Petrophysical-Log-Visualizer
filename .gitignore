@@ -9,3 +9,5 @@ data/
 output/
 # local-only task status
 SSOT.md
+# NuGet packages (packages.config restore)
+packages/
