@@ -5,7 +5,7 @@ Loads every LAS file in a folder, cleans the data for interpretation, reports ev
 ## 1. Build and run
 <!-- fill in Phase G -->
 - Requirements: Windows 10/11, Visual Studio 2026 with the ".NET desktop development" workload (.NET Framework 4.8 targeting pack)
-- Build: open `PetrophysicalLogVisualizer.sln` → Build Solution
+- Build: open `PetrophysicalLogVisualizer/PetrophysicalLogVisualizer.slnx` → Build Solution
 - Run (window): F5 → **Open folder** → select the LAS folder
 - Run (headless): `PetrophysicalLogVisualizer.App.exe --batch <inFolder> <outFolder>`
 - Tests: Test Explorer → Run All
