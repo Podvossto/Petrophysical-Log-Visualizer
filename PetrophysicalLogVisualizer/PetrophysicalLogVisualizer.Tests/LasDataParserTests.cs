@@ -47,6 +47,33 @@ namespace PetrophysicalLogVisualizer.Tests
         }
 
         [Fact]
+        public void Header_says_no_wrap_but_data_is_wrapped_is_read_as_wrapped()   // D-12
+        {
+            LasData d = Read(4, false, "1", "10 11", "12", "", "2", "20 21", "22");
+            Assert.Equal(2, d.Rows);
+            Assert.Equal(new[] { 1.0, 2.0 }, d.Depth);
+            Assert.Equal(new[] { 12f, 22f }, d.Curves[2]);
+            Assert.Single(d.Warnings);
+            Assert.Contains("WRAP NO", d.Warnings[0]);
+        }
+
+        [Fact]
+        public void Short_first_row_is_not_mistaken_for_wrapped_data()   // D-09 vs D-12
+        {
+            LasData d = Read(3, false, "1 10", "2 20 21");
+            Assert.Equal(2, d.Rows);
+            Assert.Equal(new[] { NaN, 21f }, d.Curves[1]);
+            Assert.DoesNotContain(d.Warnings, w => w.Contains("WRAP NO"));
+        }
+
+        [Fact]
+        public void Normal_unwrapped_file_gets_no_wrap_warning()
+        {
+            LasData d = Read(3, false, "1 10 11", "2 20 21");
+            Assert.Empty(d.Warnings);
+        }
+
+        [Fact]
         public void Wrapped_file_with_many_rows_on_one_line_does_not_overflow()
         {
             LasData d = Read(2, true, "1 10 2 20 3 30 4 40");

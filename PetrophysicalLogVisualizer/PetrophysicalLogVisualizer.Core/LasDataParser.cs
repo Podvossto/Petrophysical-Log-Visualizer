@@ -37,7 +37,41 @@ namespace PetrophysicalLogVisualizer.Core
                 empty.Warnings.Add("No data read: no ~A section or no curves in the header");
                 return empty;
             }
-            return new LasDataParser(columns, wrap).Run(lines, dataStart);
+            bool detected = !wrap && LooksWrapped(lines, dataStart, columns);
+            LasData data = new LasDataParser(columns, wrap || detected).Run(lines, dataStart);
+            if (detected)
+                data.Warnings.Insert(0, "Header says WRAP NO but the values are spread over several lines; read as wrapped");
+            return data;
+        }
+
+        // D-12: the first row is wrapped when it needs more than one line to reach exactly `columns` values.
+        // A row that is merely short (D-09) never adds up to `columns` exactly with the line after it.
+        public static bool LooksWrapped(string[] lines, int dataStart, int columns)
+        {
+            int sum = 0, used = 0;
+            for (int i = dataStart; i < lines.Length; i++)
+            {
+                string line = lines[i].Trim();
+                if (line.Length == 0) continue;
+                if (line[0] == '~' || line == "\u001A") return false;
+                sum += CountTokens(line);
+                used++;
+                if (sum == columns) return used > 1;
+                if (sum > columns) return false;
+            }
+            return false;
+        }
+
+        private static int CountTokens(string line)
+        {
+            int count = 0, pos = 0;
+            while (true)
+            {
+                while (pos < line.Length && IsSeparator(line[pos])) pos++;
+                if (pos >= line.Length) return count;
+                count++;
+                while (pos < line.Length && !IsSeparator(line[pos])) pos++;
+            }
         }
 
         private LasData Run(string[] lines, int dataStart)
