@@ -121,6 +121,25 @@ namespace PetrophysicalLogVisualizer.Tests
         }
 
         [Fact]
+        public void Comment_lines_in_the_data_section_are_skipped()   // legend of curve names, as in the masmp file
+        {
+            LasData d = Read(2, false, "#   DEPT   GR", "# SP    CALI", "  # indented", "1 10", "# between rows", "2 20");
+            Assert.Equal(2, d.Rows);
+            Assert.Equal(new[] { 1.0, 2.0 }, d.Depth);
+            Assert.Equal(new[] { 10f, 20f }, d.Curves[0]);
+            Assert.Equal(0, d.BadTokens.Sum());
+            Assert.Empty(d.Warnings);
+        }
+
+        [Fact]
+        public void Comment_line_inside_a_wrapped_row_does_not_split_it()
+        {
+            LasData d = Read(3, true, "1 10", "# note", "11", "2 20 21");
+            Assert.Equal(2, d.Rows);
+            Assert.Equal(new[] { 10f, 20f }, d.Curves[0]);
+        }
+
+        [Fact]
         public void Another_section_after_the_data_ends_it_without_garbage_rows()   // D-11
         {
             LasData d = Read(2, false, "1 10", "2 20", "~Parameter", "FOO.X 1 : x", "~Ascii", "3 30");

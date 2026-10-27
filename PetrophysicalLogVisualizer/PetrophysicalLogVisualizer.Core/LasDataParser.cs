@@ -88,6 +88,7 @@ namespace PetrophysicalLogVisualizer.Core
                     data.Warnings.Add("Line " + lineNo + ": another section starts here; the rest of the file is not read");
                     break;
                 }
+                if (pos < line.Length && line[pos] == '#') continue;   // comment line, e.g. the curve-name legend after ~A
                 pos = 0;
                 while (true)
                 {
