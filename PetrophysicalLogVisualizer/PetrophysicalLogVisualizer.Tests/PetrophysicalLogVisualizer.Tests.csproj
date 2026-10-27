@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DepthConditioningTests.cs" />
     <Compile Include="LasDataParserTests.cs" />
     <Compile Include="LasHeaderParserTests.cs" />
     <Compile Include="LasLoaderTests.cs" />
