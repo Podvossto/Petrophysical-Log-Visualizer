@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LasData.cs" />
+    <Compile Include="LasDataParser.cs" />
     <Compile Include="LasHeader.cs" />
     <Compile Include="LasHeaderParser.cs" />
     <Compile Include="Placeholder.cs" />
