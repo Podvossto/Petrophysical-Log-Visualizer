@@ -1,0 +1,11 @@
+# build output
+bin/
+obj/
+.vs/
+*.user
+*.suo
+# input data and working output (deliverables/ is committed once at the end)
+data/
+output/
+# local-only task status
+SSOT.md
