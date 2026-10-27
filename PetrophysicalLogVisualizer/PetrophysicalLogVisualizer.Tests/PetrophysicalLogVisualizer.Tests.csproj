@@ -84,6 +84,7 @@
     <Compile Include="LasDataParserTests.cs" />
     <Compile Include="LasHeaderParserTests.cs" />
     <Compile Include="LasLoaderTests.cs" />
+    <Compile Include="MissingValuesTests.cs" />
     <Compile Include="SmokeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -14,6 +14,7 @@ namespace PetrophysicalLogVisualizer.Core
         public long ElapsedMs { get; set; }
         public LasHeader Header { get; set; }
         public LasData Data { get; set; }
+        public MissingValueResult Missing { get; set; }
         public bool Failed { get; set; }
 
         /// <summary>Header warnings, then data warnings, then loader messages, in that order.</summary>
@@ -59,6 +60,11 @@ namespace PetrophysicalLogVisualizer.Core
                 {
                     result.Failed = true;
                     result.Issues.Add("No data rows could be read");
+                }
+                else
+                {
+                    result.Missing = MissingValues.Apply(result.Data, result.Header);
+                    result.Issues.AddRange(result.Missing.Warnings);
                 }
             }
             catch (Exception ex)
