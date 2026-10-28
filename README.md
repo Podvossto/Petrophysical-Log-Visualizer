@@ -23,7 +23,7 @@ One of the 203 plots. I picked this well because its status is OK, all four curv
 
 ## 1. Build and run
 
-**Needs:** Windows, .NET Framework 4.8, Visual Studio 2022 (17.14 or newer) or 2026 with the ".NET desktop development" workload. Clone into a short path (Windows stops at 260 characters).
+**Needs:** Windows, .NET Framework 4.8, Visual Studio 2022 (17.14 or newer) or 2026 with the ".NET desktop development" workload. Clone into a short path (e.g. `C:\src`), because some plot filenames in `deliverables/plots/` are long and Windows stops at 260 characters; a long path makes `git clone` fail with "Filename too long".
 
 **Build** from the repository root (this also downloads ScottPlot and xUnit from NuGet):
 
