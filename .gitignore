@@ -7,7 +7,5 @@ obj/
 # input data and working output (deliverables/ is committed once at the end)
 data/
 output/
-# local-only task status
-SSOT.md
 # old packages.config restore folder (packages now restore into the user NuGet cache)
 packages/

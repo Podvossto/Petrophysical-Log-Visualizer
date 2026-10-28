@@ -24,7 +24,7 @@
 - **Never create new .md files beyond the 4 scaffold files** — if the work genuinely needs another document, propose it first (filename + what it holds) and wait for approval; such documents live in `docs/` only. No floating scratch notes in the root or the working tree. Pre-approved for this project: `docs/DATA_NOTES.md`.
 
 ## Before starting any task
-1. Read `SSOT.md` — current status + roadmap (never guess status from memory). In this project SSOT.md is local-only (see Project Rules); if it is absent, the plan is the Development plan in `PROJECT.md`
+1. Read `SSOT.md` — current status + roadmap (never guess status from memory); if it is absent, the plan is the Development plan in `PROJECT.md`
 2. Check scope in `PROJECT.md` (enforced by rule 4)
 
 ## Finishing a task (final step before reporting done)
@@ -34,7 +34,7 @@
 - Understanding the system / tech rationale / the plan → `PROJECT.md`
 - What the data actually looks like and which rule came from which evidence → `docs/DATA_NOTES.md`
 - Build / run / design / conditioning decisions / limitations / AI usage → `README.md`
-- Current status (owner's machine only) → `SSOT.md`
+- Current status → `SSOT.md`
 
 ## Project Rules (project-specific — the generic rules above stay unchanged)
 From the brief:
@@ -59,7 +59,7 @@ Verification:
 - UI behaviour is committed only after the owner has tried it by hand.
 
 Git (exceptions to the generic workflow):
-- **`SSOT.md` is local-only (git-ignored)** — the commit log is part of the deliverable, so status edits stay out of the diffs. The plan reviewers see is the Development plan in `PROJECT.md`.
+- **`SSOT.md` is tracked in git** (decided 2026-10-28; it was local-only before). It is submitted with the project so that reviewers can see the status and the history of the work. Update it at the end of every task; its edits appear in the diffs.
 - `AGENTS.md` and `PROJECT.md` are committed once at the start; change them only when a decision actually changes (its own `docs:` commit).
-- `data/`, `output/`, `bin/`, `obj/`, `.vs/`, `SSOT.md` are git-ignored. Generated plots + reports enter git **once**, in a single final commit under `deliverables/`.
+- `data/`, `output/`, `bin/`, `obj/`, `.vs/` are git-ignored. Generated plots + reports enter git **once**, in a single final commit under `deliverables/`.
 - Author = the owner's git identity only (check `git config user.name` / `user.email` before the first commit).
