@@ -22,7 +22,7 @@ namespace PetrophysicalLogVisualizer.Core
     public static class MissingValues
     {
         /// <summary>D-16: markers seen in the real files besides the declared NULL. Matched as numbers, never by range.</summary>
-        public static readonly double[] Markers = { -999.25, -999, -9999, -99999, -9999.9999, -9999.999 };
+        public static readonly double[] Markers = { -999.25, -999, -9999, -99999, -9999.9999, -9999.999, -999.2 };
 
         /// <summary>Curve values only (the depth column is never touched). Changes the arrays in place.</summary>
         public static MissingValueResult Apply(LasData data, LasHeader header)

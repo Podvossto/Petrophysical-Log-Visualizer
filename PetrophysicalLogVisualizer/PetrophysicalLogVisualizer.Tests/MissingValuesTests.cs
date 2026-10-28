@@ -76,6 +76,7 @@ namespace PetrophysicalLogVisualizer.Tests
         [InlineData("-99999")]
         [InlineData("-9999.9999")]   // stored as float -10000: must still be found
         [InlineData("-9999.999")]    // 9981 values in one real file
+        [InlineData("-999.2")]       // -999.25 cut short: 29,110 values in one mud log that declares -999.25
         public void Each_known_marker_becomes_NaN_when_not_declared(string marker)
         {
             LasData d = Table("1 " + marker + " 5");
@@ -96,6 +97,19 @@ namespace PetrophysicalLogVisualizer.Tests
             Assert.Equal(3, r.Markers[0][four] + r.Markers[1][four]);   // -9999.9999 twice, plus -10000 (same float)
             Assert.Equal(1, r.Markers[0][three] + r.Markers[1][three]);
             Assert.Equal(-9999.99f, d.Curves[1][2]);                    // a different number: untouched
+        }
+
+        [Fact]
+        public void The_cut_short_marker_is_a_different_number_from_the_declared_null()
+        {
+            LasData d = Table("1 -999.2 -999.25", "2 -999.25 -999.2");
+            MissingValueResult r = MissingValues.Apply(d, Header(-999.25));
+            int cut = System.Array.IndexOf(MissingValues.Markers, -999.2);
+            Assert.Equal(new[] { 1, 1 }, r.DeclaredNull);                       // -999.25 is the declared NULL
+            Assert.Equal(1, r.Markers[0][cut]);                                  // -999.2 is counted as a marker, apart from it
+            Assert.Equal(1, r.Markers[1][cut]);
+            Assert.Equal(new[] { NaN, NaN }, d.Curves[0]);
+            Assert.Equal(new[] { NaN, NaN }, d.Curves[1]);
         }
 
         [Fact]
