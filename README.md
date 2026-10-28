@@ -2,7 +2,7 @@
 
 Loads every LAS well-log file in a folder, cleans the data, reports every change, and draws a three-track log plot for each well. C#, .NET Framework 4.8, WinForms. The LAS reader is hand-written; ScottPlot is used only to draw.
 
-The brief mentions 50 files; I received 203 (192 different, 11 byte-identical copies). The program handles all of them, and `deliverables/` holds the plots and reports for all 203.
+The brief mentions 50 files; I received 203. The program handles all of them, and `deliverables/` holds the plots and reports for all 203.
 
 | | |
 |---|---|
@@ -17,7 +17,7 @@ The window with the 203 files loaded and one well selected:
 
 ![The window](docs/images/window.png)
 
-One of the 203 plots. I picked this well because its status is OK, all four curves were found, it is not a copy, and fewer than 0.1 % of its values are missing. The upper part is cased hole, so those curves are junk, shown as recorded (section 5).
+One of the 203 plots.
 
 ![Log plot of 4246137183_PURE_UNIV_58_1_1_MainPass_020LUP](deliverables/plots/4246137183_PURE_UNIV_58_1_1_MainPass_020LUP.png)
 
@@ -112,8 +112,6 @@ For thousands of wells I would parse while reading, run files in parallel with a
 - `SSOT.md`: one status file (plan, current state, history), updated at the end of every task.
 - A test for every rule, and every rule that came from the data is written down with its evidence in `docs/DATA_NOTES.md`.
 - Small commits whose message says why, not only what.
-
-Commit messages carry my name only; the use of AI is disclosed here, not in the commit metadata.
 
 ## Project documents
 
