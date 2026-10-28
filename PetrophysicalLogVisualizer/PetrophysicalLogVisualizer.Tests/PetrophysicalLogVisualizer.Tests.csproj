@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbnormalFilesTests.cs" />
     <Compile Include="BatchRunnerTests.cs" />
     <Compile Include="ConditioningReportTests.cs" />
     <Compile Include="CurveRolesTests.cs" />
