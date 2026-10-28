@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConditioningReport.cs" />
     <Compile Include="CurveRoles.cs" />
     <Compile Include="CurveRules.cs" />
     <Compile Include="DepthConditioning.cs" />

@@ -35,7 +35,7 @@ namespace PetrophysicalLogVisualizer.Core
         }
 
         // quote a field when it holds a comma, quote or line break
-        private static StringBuilder Field(StringBuilder sb, string text)
+        internal static StringBuilder Field(StringBuilder sb, string text)
         {
             if (text.IndexOfAny(new[] { ',', '"', '\r', '\n' }) < 0) return sb.Append(text);
             return sb.Append('"').Append(text.Replace("\"", "\"\"")).Append('"');
