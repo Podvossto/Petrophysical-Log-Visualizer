@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using PetrophysicalLogVisualizer.Core;
 using ScottPlot;
@@ -20,11 +20,17 @@ namespace PetrophysicalLogVisualizer.App
             using (var font = new Font("Segoe UI", 14, FontStyle.Bold))
             {
                 g.Clear(Color.White);
-                g.DrawString(m.Title + "   (depth " + m.DepthMin + " - " + m.DepthMax + " ft)", font, Brushes.Black, 10, 8);
+                string title = m.Title + "   (depth " + m.DepthMin + " - " + m.DepthMax + " ft)";
+                Font titleFont = font;
+                float titleWidth = g.MeasureString(title, font).Width;
+                if (titleWidth > width - 20)   // narrow window: shrink the title so it is not cut off
+                    titleFont = new Font("Segoe UI", Math.Max(8f, font.Size * (width - 20) / titleWidth), FontStyle.Bold);
+                g.DrawString(title, titleFont, Brushes.Black, 10, 8);
+                if (titleFont != font) titleFont.Dispose();
                 for (int t = 0; t < m.Tracks.Length; t++)
                 {
                     var plt = new Plot();
-                    Draw(plt, m, m.Tracks[t], t == 0);
+                    Draw(plt, m, m.Tracks[t], t == 0, trackWidth, height - HeaderHeight - PlotTop - PlotBottom);
                     using (Bitmap body = plt.Render(trackWidth, height - HeaderHeight))
                         g.DrawImage(body, t * trackWidth, HeaderHeight);
                     DrawLegend(g, m.Tracks[t], t * trackWidth, trackWidth);
@@ -37,7 +43,10 @@ namespace PetrophysicalLogVisualizer.App
         private static void DrawLegend(Graphics g, PlotTrack track, int left, int trackWidth)
         {
             if (track.Series.Count == 0) return;
-            using (var font = new Font("Segoe UI", 10, FontStyle.Regular))
+            float available = trackWidth - PlotLeft - PlotRight;
+            float size = 10;
+            while (size > 7 && LegendWidth(g, track, size) > available) size -= 1;   // narrow window: smaller legend, so no name is cut off
+            using (var font = new Font("Segoe UI", size, FontStyle.Regular))
             {
                 const int lineLength = 26, gap = 6, spacing = 22;
                 var widths = new float[track.Series.Count];
@@ -59,7 +68,16 @@ namespace PetrophysicalLogVisualizer.App
             }
         }
 
-        private static void Draw(Plot plt, WellPlotModel m, PlotTrack track, bool first)
+        private static float LegendWidth(Graphics g, PlotTrack track, float size)
+        {
+            float total = 0;
+            using (var font = new Font("Segoe UI", size, FontStyle.Regular))
+                for (int i = 0; i < track.Series.Count; i++)
+                    total += 26 + 6 + g.MeasureString(track.Series[i].Label, font).Width + (i > 0 ? 22 : 0);
+            return total;
+        }
+
+        private static void Draw(Plot plt, WellPlotModel m, PlotTrack track, bool first, int trackWidth, int plotHeight)
         {
             foreach (PlotSeries s in track.Series)
             {
@@ -70,6 +88,7 @@ namespace PetrophysicalLogVisualizer.App
             double top = m.DepthMin, bottom = m.DepthMax > m.DepthMin ? m.DepthMax : m.DepthMin + 1;
             plt.YAxis.IsReverse = true;   // depth increases downward
             plt.SetAxisLimits(track.XMin, track.XMax, top, bottom);
+            plt.YAxis.ManualTickSpacing(DepthStep(bottom - top, plotHeight));
             plt.Layout(left: PlotLeft, right: PlotRight, bottom: PlotBottom, top: PlotTop);
 
             if (track.Log)
@@ -82,14 +101,26 @@ namespace PetrophysicalLogVisualizer.App
             plt.XAxis.Label(track.AxisLabel, size: 10);
             if (first) plt.YAxis.Label("Depth (ft)");
 
+            // 13 pt in the 1200 px PNG; smaller in a narrow window track so "No ... curve" is not cut off
+            float noteSize = Math.Min(13f, Math.Max(7f, (trackWidth - PlotLeft - PlotRight) / 15f));
             for (int i = 0; i < track.Messages.Count; i++)
             {
                 double y = top + (bottom - top) * (0.03 + 0.04 * i);   // near the top, on a white box, so it never hides the data
-                Text note = plt.AddText(track.Messages[i], (track.XMin + track.XMax) / 2, y, 13, Color.DimGray);
+                Text note = plt.AddText(track.Messages[i], (track.XMin + track.XMax) / 2, y, noteSize, Color.DimGray);
                 note.Alignment = Alignment.MiddleCenter;
                 note.BackgroundFill = true;
                 note.BackgroundColor = Color.White;
             }
+        }
+
+        // About one depth label per 28 px of the plot area, so a small window and the big PNG are equally readable. The step is 1, 2 or 5 x 10^n ft.
+        public static double DepthStep(double range, int plotHeight)
+        {
+            double raw = range * 28.0 / Math.Max(plotHeight, 100);
+            double power = Math.Pow(10, Math.Floor(Math.Log10(raw)));
+            foreach (double k in new[] { 5.0, 2.0, 1.0 })
+                if (k * power <= raw) return k * power;
+            return power;
         }
 
         private static Color ColorOf(CurveRole role)

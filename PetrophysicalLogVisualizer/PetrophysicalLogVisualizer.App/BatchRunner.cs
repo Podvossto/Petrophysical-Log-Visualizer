@@ -37,11 +37,7 @@ namespace PetrophysicalLogVisualizer.App
                 LasFileResult r = LasLoader.Load(files[i]);
                 bytes += r.Bytes;
                 string original;
-                if (copies.TryGetValue(files[i], out original))
-                {
-                    r.DuplicateOf = Path.GetFileName(original);
-                    r.Issues.Add("Byte-identical copy of " + r.DuplicateOf);
-                }
+                if (copies.TryGetValue(files[i], out original)) MarkCopy(r, original);
                 PlotExportResult plot = PlotExporter.Save(r, plots);
                 if (plot.Png != null) png++;
                 else if (!r.Failed) { plotErrors++; r.Issues.Add(plot.Error); }   // loaded but not drawn: the load report must say so
@@ -63,6 +59,13 @@ namespace PetrophysicalLogVisualizer.App
             log.WriteLine("Time: " + seconds.ToString("F1") + " s; " + (bytes / 1048576.0).ToString("F1") + " MB read (" + (bytes / 1048576.0 / Math.Max(seconds, 0.001)).ToString("F1") + " MB/s); peak working set: " + (Process.GetCurrentProcess().PeakWorkingSet64 / 1048576) + " MB");
             log.WriteLine("Reports and plots are in: " + outFolder);
             return 0;
+        }
+
+        /// <summary>D-24: a byte-identical copy is flagged (an issue, so its status is WARN) but still processed. Used by the window too, so both agree.</summary>
+        public static void MarkCopy(LasFileResult r, string originalPath)
+        {
+            r.DuplicateOf = Path.GetFileName(originalPath);
+            r.Issues.Add("Byte-identical copy of " + r.DuplicateOf);
         }
     }
 }

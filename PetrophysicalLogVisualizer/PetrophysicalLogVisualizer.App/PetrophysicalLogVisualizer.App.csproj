@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -57,7 +57,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BatchRunner.cs" />
+    <Compile Include="FolderPicker.cs" />
+    <Compile Include="MainForm.cs" />
+    <Compile Include="MainForm.Layout.cs" />
+    <Compile Include="MainForm.Well.cs" />
+    <Compile Include="WellRow.cs" />
+    <Compile Include="WellView.cs" />
     <Compile Include="PlotExporter.cs" />
+    <Compile Include="ProgressWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="WellPlotRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

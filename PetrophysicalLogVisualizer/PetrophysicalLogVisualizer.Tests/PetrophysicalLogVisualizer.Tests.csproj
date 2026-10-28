@@ -57,6 +57,7 @@
     <Compile Include="ConditioningReportTests.cs" />
     <Compile Include="CurveRolesTests.cs" />
     <Compile Include="DepthConditioningTests.cs" />
+    <Compile Include="DepthStepTests.cs" />
     <Compile Include="DepthUnitsTests.cs" />
     <Compile Include="FileDuplicatesTests.cs" />
     <Compile Include="LasDataParserTests.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="PlotExporterTests.cs" />
     <Compile Include="SmokeTests.cs" />
     <Compile Include="WellPlotModelTests.cs" />
+    <Compile Include="WellRowTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
