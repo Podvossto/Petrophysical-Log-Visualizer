@@ -27,6 +27,8 @@ namespace PetrophysicalLogVisualizer.Core
             if (r.Failed || r.Data == null || r.Header == null) return list;
             string file = System.IO.Path.GetFileName(r.Path);
             LasHeader h = r.Header;
+            if (r.DuplicateOf != null)
+                Add(list, file, "warn", "duplicate-file", "", "Byte-identical copy of " + r.DuplicateOf + "; processed like any other file, so its changes below count twice in the totals", -1);
             if (h.Version.HasValue && h.Version.Value >= 3.0)
                 Add(list, file, "note", "format", "", "LAS " + Num(h.Version.Value) + ": read as best effort (first data section only, other sections skipped)", -1);
             foreach (string w in r.Data.Warnings) Add(list, file, "warn", "parse", "", w, -1);
@@ -95,7 +97,7 @@ namespace PetrophysicalLogVisualizer.Core
 
         public static string ToSummary(IList<LasFileResult> results)
         {
-            int loaded = 0, notes = 0, warns = 0, filesWithWarn = 0;
+            int loaded = 0, notes = 0, warns = 0, filesWithWarn = 0, copies = 0;
             var failed = new List<string>();
             var perCategory = new SortedDictionary<string, int>(StringComparer.Ordinal);
             int[] roleFiles = new int[4];
@@ -106,6 +108,7 @@ namespace PetrophysicalLogVisualizer.Core
 
             foreach (LasFileResult r in results)
             {
+                if (r.DuplicateOf != null) copies++;
                 if (r.Failed || r.Data == null)
                 {
                     failed.Add(System.IO.Path.GetFileName(r.Path) + ": " + (r.Issues.Count > 0 ? r.Issues[r.Issues.Count - 1] : "failed"));
@@ -146,6 +149,8 @@ namespace PetrophysicalLogVisualizer.Core
             var sb = new StringBuilder();
             sb.Append("# Conditioning summary\n\n");
             sb.Append("Files: " + results.Count + " (loaded " + loaded + ", failed " + failed.Count + ").\n\n");
+            if (copies > 0)
+                sb.Append((results.Count - copies) + " files are different; " + copies + " are byte-identical copies of an earlier file. Every file is processed, so the totals below count the copies too.\n\n");
             sb.Append("Entries in conditioning-report.csv: " + (notes + warns) + ". `note` = routine (" + notes + "), `warn` = worth a look (" + warns + ", in " + filesWithWarn + " files). Filter the `level` column on `warn` to skip the routine rows.\n\n");
             sb.Append("## Changes made\n\n| Change | Level | Files | Values or rows |\n|---|---|---|---|\n");
             sb.Append("| Values equal to the declared NULL set to NaN | note | " + nullFiles + " | " + nullValues + " |\n");

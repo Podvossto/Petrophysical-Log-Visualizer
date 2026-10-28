@@ -20,6 +20,9 @@ namespace PetrophysicalLogVisualizer.Core
         public RoleResult Roles { get; set; }
         public bool Failed { get; set; }
 
+        /// <summary>File name of the earlier file whose bytes are exactly the same; null when this file is not a copy (D-24).</summary>
+        public string DuplicateOf { get; set; }
+
         /// <summary>Header warnings, then data warnings, then loader messages, in that order.</summary>
         public List<string> Issues { get; } = new List<string>();
     }

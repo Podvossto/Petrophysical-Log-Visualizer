@@ -27,6 +27,7 @@ namespace PetrophysicalLogVisualizer.App
             string[] files = LasLoader.FindFiles(inFolder);
             string plots = Path.Combine(outFolder, "plots");
             Directory.CreateDirectory(outFolder);
+            Dictionary<string, string> copies = FileDuplicates.Find(files);   // byte-identical files: flagged in the reports, still processed
             var results = new List<LasFileResult>();
             int png = 0, plotErrors = 0;
             long bytes = 0;
@@ -35,6 +36,12 @@ namespace PetrophysicalLogVisualizer.App
             {
                 LasFileResult r = LasLoader.Load(files[i]);
                 bytes += r.Bytes;
+                string original;
+                if (copies.TryGetValue(files[i], out original))
+                {
+                    r.DuplicateOf = Path.GetFileName(original);
+                    r.Issues.Add("Byte-identical copy of " + r.DuplicateOf);
+                }
                 PlotExportResult plot = PlotExporter.Save(r, plots);
                 if (plot.Png != null) png++;
                 else if (!r.Failed) { plotErrors++; r.Issues.Add(plot.Error); }   // loaded but not drawn: the load report must say so
@@ -52,6 +59,7 @@ namespace PetrophysicalLogVisualizer.App
             foreach (LasFileResult r in results) if (r.Failed) failed++;
             double seconds = timer.Elapsed.TotalSeconds;
             log.WriteLine("Files: " + files.Length + " (loaded " + (files.Length - failed) + ", failed " + failed + "); plots written: " + png + (plotErrors > 0 ? " (" + plotErrors + " loaded files could not be drawn)" : ""));
+            if (copies.Count > 0) log.WriteLine((files.Length - copies.Count) + " files are different; " + copies.Count + " are byte-identical copies (flagged, not skipped)");
             log.WriteLine("Time: " + seconds.ToString("F1") + " s; " + (bytes / 1048576.0).ToString("F1") + " MB read (" + (bytes / 1048576.0 / Math.Max(seconds, 0.001)).ToString("F1") + " MB/s); peak working set: " + (Process.GetCurrentProcess().PeakWorkingSet64 / 1048576) + " MB");
             log.WriteLine("Reports and plots are in: " + outFolder);
             return 0;

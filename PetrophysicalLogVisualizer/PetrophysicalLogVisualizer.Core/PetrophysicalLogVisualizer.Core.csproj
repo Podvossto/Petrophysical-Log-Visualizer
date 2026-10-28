@@ -46,6 +46,7 @@
     <Compile Include="CurveRules.cs" />
     <Compile Include="DepthConditioning.cs" />
     <Compile Include="DepthUnits.cs" />
+    <Compile Include="FileDuplicates.cs" />
     <Compile Include="LasData.cs" />
     <Compile Include="LasDataParser.cs" />
     <Compile Include="LasHeader.cs" />

@@ -43,6 +43,27 @@ namespace PetrophysicalLogVisualizer.Tests
         }
 
         [Fact]
+        public void A_byte_identical_copy_is_flagged_in_the_reports_but_still_processed_and_plotted()
+        {
+            Put("a_well.las", Las("1 50\n2 60\n3 70\n"));
+            Put("b_well_copy.las", Las("1 50\n2 60\n3 70\n"));
+            Put("c_other.las", Las("1 55\n2 65\n3 75\n"));
+            var log = new StringWriter();
+
+            Assert.Equal(0, BatchRunner.Run(In, Out, log));
+
+            string[] load = File.ReadAllLines(Path.Combine(Out, "load-report.csv"));
+            Assert.Single(load, l => l.Contains("Byte-identical copy of a_well.las"));
+            Assert.Contains(load, l => l.StartsWith("b_well_copy.las,WARN,"));
+            Assert.Contains(load, l => l.StartsWith("a_well.las,OK,"));                 // the original is not flagged
+            Assert.Equal(3, Directory.GetFiles(Path.Combine(Out, "plots"), "*.png").Length);   // nothing is skipped
+            string summary = File.ReadAllText(Path.Combine(Out, "summary.md"));
+            Assert.Contains("2 files are different; 1 are byte-identical copies", summary);
+            Assert.Contains("duplicate-file", File.ReadAllText(Path.Combine(Out, "conditioning-report.csv")));
+            Assert.Contains("2 files are different; 1 are byte-identical copies", log.ToString());
+        }
+
+        [Fact]
         public void A_missing_input_folder_is_a_message_and_a_non_zero_code()
         {
             var log = new StringWriter();
