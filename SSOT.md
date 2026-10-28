@@ -2,11 +2,11 @@
 
 > Update this file as the FINAL step of every task — a stale file = task not done
 > If this file contradicts reality → trust reality and fix this file immediately
-> Last updated: 2026-10-28
+> Last updated: 2026-10-28 (submitted)
 
 ## Current status (cap 10 lines)
-- Code complete: T1–T16 done; the window is 4d31473 (pushed). Local commits not yet pushed: e266cc7 (deliverables), e012b4d (README) and the commit that tracks SSOT.md. 157 tests pass. Deadline: 2026-10-28 20:00 ICT (submit to help@petrores.net)
-- Left: fresh-clone build + run test (T18), `git push`, check that the README images open on GitHub, send the submission to help@petrores.net
+- All tasks T1–T18 done and pushed (origin/main = 453c891). 157 tests pass. The owner sent the submission to help@petrores.net on 2026-10-28 (deadline 20:00 ICT)
+- Left: nothing. If the reviewers report a problem, fix it as a new task
 - Data: 203 LAS files received (brief says 50, 192 different + 11 byte-identical copies) → every file in `data/` is processed; plots and reports for all 203 are delivered
 - Last full runs (Release, 203 files, 1019.4 MB): `--batch` 28.6–43.0 s (23.7–35.6 MB/s), peak working set 589–796 MB; largest file alone (116.3 MB) 2.3 s and 754 MB (6.5x its size); window scan 24–26 s, 144 OK · 59 WARN · 0 FAILED
 - Stack decided: net48 · WinForms · ScottPlot 4.1 · xUnit (see PROJECT.md)
@@ -34,7 +34,7 @@
 | T15 | 11 | Measure | Time, MB/s, peak working set from a real run on the final code | F9 | DONE (measured on 4d31473, numbers in README section 4) |
 | T16 | 12 | End-to-end test | Input folder → export on all files + abnormal cases, checked against F1–F9 AC | F1–F9 | DONE (8d2db24, 7f579c7, 54a162b, b87a022) |
 | T17 | 13 | README | build/run, design, decisions, performance, limitations, AI use | — | DONE (e012b4d) |
-| T18 | 13 | Deliverables + fresh clone | `deliverables/` committed once; SSOT.md tracked; fresh clone builds + runs | — | DOING: deliverables e266cc7, SSOT.md tracked in the last commit; fresh-clone test and push left |
+| T18 | 13 | Deliverables + fresh clone | `deliverables/` committed once; SSOT.md tracked; fresh clone builds + runs | — | DONE (e266cc7 deliverables, b8c2f0d SSOT.md tracked; fresh clone checked 2026-10-28) |
 
 ## Known issues (accepted for now)
 - Memory: a file is read whole as text, then split into lines (754 MB peak for a 116 MB file, 6.5x); streaming parse would fix it but changes both parsers and many tests
@@ -108,3 +108,4 @@
 - 2026-10-28: T18 deliverables e266cc7 — `--batch data deliverables` with the Release build of 4d31473: 203 loaded, 0 failed, 203 PNG (33.9 MB) + load-report.csv + conditioning-report.csv (4011 entries, 132 warn in 59 files) + summary.md; this run took 44.0 s and peaked at 798 MB (a fourth run, slightly above the three in README section 4); not pushed
 - 2026-10-28: T17 README e012b4d — build/run, design, decisions, performance (weak point stated), limitations, AI use, an Example section (docs/images/window.png + a plot from deliverables/), image links checked locally; not pushed
 - 2026-10-28: SSOT.md tracked in git (this file, AGENTS.md and .gitignore in one docs commit); T14 handoff removed. Next: fresh-clone test, push, check the README images on GitHub with curl, send the submission
+- 2026-10-28: T18 DONE and submitted — fresh clone of origin/main (b8c2f0d) into a short path: msbuild -restore OK, 157/157 tests pass, App.exe built; a first clone into a long path failed with "Filename too long" (long plot filenames) -> README warns to clone into a short path (453c891, pushed; also dropped the 192/11 copy count, the plot-choice rationale and the commit-metadata note from README); README images on GitHub return HTTP 200; owner emailed the submission with the repository link
