@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5CD0B71D-81B6-47BE-A912-27C38E4E5A05}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>PetrophysicalLogVisualizer.App</RootNamespace>
     <AssemblyName>PetrophysicalLogVisualizer.App</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BatchRunner.cs" />
     <Compile Include="PlotExporter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="WellPlotRenderer.cs" />

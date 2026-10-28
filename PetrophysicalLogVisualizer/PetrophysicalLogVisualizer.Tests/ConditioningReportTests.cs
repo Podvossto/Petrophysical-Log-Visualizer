@@ -120,6 +120,23 @@ namespace PetrophysicalLogVisualizer.Tests
         }
 
         [Fact]
+        public void Reports_are_the_same_after_the_values_are_released()   // a batch run keeps only the counts of finished files
+        {
+            LasFileResult r = Load("m.las", Las("2.0", "3 -999.25 25\n2 51 26\n1 -999 27\n"));
+            var one = new[] { r };
+            string load = LoadReport.ToCsv(one), csv = ConditioningReport.ToCsv(one), summary = ConditioningReport.ToSummary(one);
+
+            r.Data.ReleaseValues();
+
+            Assert.Equal(load, LoadReport.ToCsv(one));
+            Assert.Equal(csv, ConditioningReport.ToCsv(one));
+            Assert.Equal(summary, ConditioningReport.ToSummary(one));
+            Assert.Empty(r.Data.Depth);
+            Assert.Equal(2, r.Data.Curves.Length);
+            Assert.Equal(3, r.Data.Rows);
+        }
+
+        [Fact]
         public void Summary_adds_up_over_files()
         {
             LasFileResult one = Load("i.las", Las("2.0", "1 -999.25 25\n2 51 26\n3 52 27\n"));

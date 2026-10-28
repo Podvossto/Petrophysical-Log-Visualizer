@@ -16,5 +16,15 @@ namespace PetrophysicalLogVisualizer.Core
         public int[] BadTokens { get; set; }
 
         public List<string> Warnings { get; } = new List<string>();
+
+        /// <summary>
+        /// Drops the numbers and keeps the counts (Rows, number of curves, BadTokens, Warnings) that the reports use,
+        /// so a batch run can hold the reports of many files while it keeps only one file's values in memory.
+        /// </summary>
+        public void ReleaseValues()
+        {
+            Depth = new double[0];
+            Curves = new float[Curves.Length][];
+        }
     }
 }
