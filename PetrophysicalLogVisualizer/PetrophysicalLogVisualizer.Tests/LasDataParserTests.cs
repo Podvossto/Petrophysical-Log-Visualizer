@@ -155,7 +155,7 @@ namespace PetrophysicalLogVisualizer.Tests
             LasData d = Read(2, false, "1 10", "\0\0\0\0", "3 30");
             Assert.Equal(2, d.Rows);
             Assert.Equal(new[] { 1.0, 3.0 }, d.Depth);
-            Assert.True(d.Warnings.Any(w => w.Contains("skipped")));
+            Assert.Contains(d.Warnings, w => w.Contains("skipped"));
         }
 
         [Fact]

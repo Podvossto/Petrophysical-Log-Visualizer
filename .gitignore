@@ -9,5 +9,5 @@ data/
 output/
 # local-only task status
 SSOT.md
-# NuGet packages (packages.config restore)
+# old packages.config restore folder (packages now restore into the user NuGet cache)
 packages/
