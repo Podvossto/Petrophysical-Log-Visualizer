@@ -90,6 +90,7 @@
     <Compile Include="LasLoaderTests.cs" />
     <Compile Include="MissingValuesTests.cs" />
     <Compile Include="SmokeTests.cs" />
+    <Compile Include="WellPlotModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

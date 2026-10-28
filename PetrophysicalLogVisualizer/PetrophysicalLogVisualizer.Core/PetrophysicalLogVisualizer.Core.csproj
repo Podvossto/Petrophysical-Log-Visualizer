@@ -51,6 +51,7 @@
     <Compile Include="LasHeader.cs" />
     <Compile Include="LasLoader.cs" />
     <Compile Include="MissingValues.cs" />
+    <Compile Include="WellPlotModel.cs" />
     <Compile Include="LoadReport.cs" />
     <Compile Include="LasHeaderParser.cs" />
     <Compile Include="Placeholder.cs" />
