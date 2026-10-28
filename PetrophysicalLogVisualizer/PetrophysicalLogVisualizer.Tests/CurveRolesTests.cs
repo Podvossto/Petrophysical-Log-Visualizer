@@ -87,6 +87,30 @@ namespace PetrophysicalLogVisualizer.Tests
         }
 
         [Fact]
+        public void A_gamma_curve_that_is_all_zero_gets_a_warning_but_is_still_chosen_and_unchanged()   // a mud log GAMMA in the real data
+        {
+            RoleResult r = Run(new[] { "GAMMA|GAPI" }, new[] { 0f, 0f, 0f });
+            Assert.Equal(0, Pick(r, CurveRole.GammaRay).Curve);
+            Assert.Equal(new[] { 0f, 0f, 0f }, lastData.Curves[0]);
+            Assert.Contains("GammaRay: GAMMA has a median of 0 GAPI, outside the usual 1 to 500", r.Warnings.Single());
+        }
+
+        [Fact]
+        public void A_density_with_a_median_far_below_any_rock_gets_a_warning()   // DEN with median 0.19 in the real data
+        {
+            RoleResult r = Run(new[] { "DEN|G/CC" }, new[] { 0.03f, 0.19f, 0.57f });
+            Assert.Equal(0, Pick(r, CurveRole.BulkDensity).Curve);
+            Assert.Contains("BulkDensity: DEN has a median of 0.19 g/cc", r.Warnings.Single());
+        }
+
+        [Fact]
+        public void Normal_gamma_and_density_get_no_warning_and_nor_does_resistivity_or_a_converted_density()
+        {
+            RoleResult r = Run(new[] { "GR|GAPI", "RT|OHMM", "RHOZ|K/M3" }, new[] { 50f, 70f, 90f }, new[] { 0.02f, 0.03f, 0.05f }, new[] { 2650f, 2700f, 2600f });
+            Assert.Empty(r.Warnings);   // the density is judged after the division by 1000
+        }
+
+        [Fact]
         public void Percent_label_with_values_in_percent_is_still_divided()
         {
             RoleResult r = Run(new[] { "NPHI|%" }, new[] { 10f, 12f, 15f });

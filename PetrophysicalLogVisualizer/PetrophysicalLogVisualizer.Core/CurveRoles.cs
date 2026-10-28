@@ -94,6 +94,14 @@ namespace PetrophysicalLogVisualizer.Core
             else
             {
                 Convert(data.Curves[choice.Curve], choice.Divisor);
+                double[] usual = CurveRules.MedianRange(role);   // warn only: the values are kept and the curve is still drawn
+                if (usual != null)
+                {
+                    double middle = Median(data.Curves[choice.Curve]);
+                    if (middle < usual[0] || middle > usual[1])
+                        result.Warnings.Add(name + ": " + choice.Mnemonic + " has a median of " + Math.Round(middle, 3) + " " + CurveRules.Standard(role) +
+                                            ", outside the usual " + usual[0] + " to " + usual[1] + "; the values may not be what the name says (check the file's columns and units)");
+                }
                 if (role == CurveRole.NeutronPorosity && choice.Divisor == 1)
                 {
                     double median = Median(data.Curves[choice.Curve]);   // D-17 safety net

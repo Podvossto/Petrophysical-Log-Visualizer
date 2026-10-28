@@ -41,6 +41,21 @@ namespace PetrophysicalLogVisualizer.Core
             }
         }
 
+        /// <summary>
+        /// Usual range of the median of a whole curve, in the standard unit. Wide on purpose: it only catches a curve that cannot be
+        /// what its name says (a gamma ray that is all 0, a density of 0.19 g/cc). Null for neutron (it has its own percent/fraction
+        /// checks) and for resistivity (it spans too many decades to say anything).
+        /// </summary>
+        public static double[] MedianRange(CurveRole role)
+        {
+            switch (role)
+            {
+                case CurveRole.GammaRay: return new[] { 1.0, 500.0 };
+                case CurveRole.BulkDensity: return new[] { 1.0, 3.6 };
+                default: return null;
+            }
+        }
+
         /// <summary>Number to divide the values by to reach Standard(role); null when the unit is not accepted for this role (a count rate is not a porosity).</summary>
         public static double? Divisor(CurveRole role, string unit)
         {
