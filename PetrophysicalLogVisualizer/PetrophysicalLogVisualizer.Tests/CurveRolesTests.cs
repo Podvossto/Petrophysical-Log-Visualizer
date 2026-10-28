@@ -74,6 +74,25 @@ namespace PetrophysicalLogVisualizer.Tests
             Assert.Contains("divided by 100", r.Notes.First(n => n.StartsWith("NeutronPorosity")));
         }
 
+        [Fact]
+        public void Percent_label_with_values_that_are_already_fractions_is_not_divided_again()   // 39399.LAS: NPHI labelled %, median 0.104
+        {
+            RoleResult r = Run(new[] { "NPHI|%" }, new[] { 0.10f, 0.12f, NaN, 0.15f });
+            Assert.Equal(new[] { 0.10f, 0.12f, NaN, 0.15f }, lastData.Curves[0]);
+            Assert.Equal(1, Pick(r, CurveRole.NeutronPorosity).Divisor);
+            Assert.Single(r.Warnings);
+            Assert.Contains("labelled %", r.Warnings[0]);
+            Assert.Contains("not divided", r.Notes.First(n => n.StartsWith("NeutronPorosity")));
+        }
+
+        [Fact]
+        public void Percent_label_with_values_in_percent_is_still_divided()
+        {
+            RoleResult r = Run(new[] { "NPHI|%" }, new[] { 10f, 12f, 15f });
+            Assert.Equal(new[] { 0.1f, 0.12f, 0.15f }, lastData.Curves[0]);
+            Assert.Empty(r.Warnings);
+        }
+
         [Theory]
         [InlineData("CFCF")]
         [InlineData("V/V")]

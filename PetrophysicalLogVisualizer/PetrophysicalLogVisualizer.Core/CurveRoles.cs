@@ -67,6 +67,17 @@ namespace PetrophysicalLogVisualizer.Core
                         choice.Others.Add(label + ": " + (reject ?? "lower priority"));
                         continue;
                     }
+                    string mismatch = null;
+                    if (role == CurveRole.NeutronPorosity && divisor == 100)   // D-17 safety net, the other way round
+                    {
+                        double median = Median(data.Curves[c]);
+                        if (median < 1)
+                        {
+                            divisor = 1;
+                            mismatch = "labelled " + unit + " but its median is " + median + "; the values look like fractions, so they were not divided by 100";
+                            result.Warnings.Add(role + ": " + info.Mnemonic.Trim() + " is " + mismatch);
+                        }
+                    }
                     choice.Curve = c;
                     choice.Mnemonic = info.Mnemonic.Trim();
                     choice.OriginalUnit = unit;
@@ -74,6 +85,7 @@ namespace PetrophysicalLogVisualizer.Core
                     note = label + " chosen";
                     if (unit.Length == 0) note += "; unit is empty, taken as " + CurveRules.Standard(role);
                     if (divisor != 1) note += "; values divided by " + divisor + " to get " + CurveRules.Standard(role);
+                    if (mismatch != null) note += "; " + mismatch;
                 }
             }
 
