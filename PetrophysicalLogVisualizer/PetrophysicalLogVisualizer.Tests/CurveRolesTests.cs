@@ -82,6 +82,7 @@ namespace PetrophysicalLogVisualizer.Tests
             Assert.Equal(1, Pick(r, CurveRole.NeutronPorosity).Divisor);
             Assert.Single(r.Warnings);
             Assert.Contains("labelled %", r.Warnings[0]);
+            Assert.Contains("median is 0.12;", r.Warnings[0]);   // middle of 0.10, 0.12, 0.15, rounded (the float is 0.119999997...)
             Assert.Contains("not divided", r.Notes.First(n => n.StartsWith("NeutronPorosity")));
         }
 

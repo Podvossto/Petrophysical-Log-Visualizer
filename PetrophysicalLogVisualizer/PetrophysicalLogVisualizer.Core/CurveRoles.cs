@@ -74,7 +74,7 @@ namespace PetrophysicalLogVisualizer.Core
                         if (median < 1)
                         {
                             divisor = 1;
-                            mismatch = "labelled " + unit + " but its median is " + median + "; the values look like fractions, so they were not divided by 100";
+                            mismatch = "labelled " + unit + " but its median is " + Math.Round(median, 3) + "; the values look like fractions, so they were not divided by 100";
                             result.Warnings.Add(role + ": " + info.Mnemonic.Trim() + " is " + mismatch);
                         }
                     }
@@ -98,7 +98,7 @@ namespace PetrophysicalLogVisualizer.Core
                 {
                     double median = Median(data.Curves[choice.Curve]);   // D-17 safety net
                     if (median > 1)
-                        result.Warnings.Add(name + ": " + choice.Mnemonic + " is read as a fraction but its median is " + median + "; it may be percent");
+                        result.Warnings.Add(name + ": " + choice.Mnemonic + " is read as a fraction but its median is " + Math.Round(median, 3) + "; it may be percent");
                 }
             }
             if (choice.Others.Count > 0) note += "; other candidates: " + string.Join(", ", choice.Others);
