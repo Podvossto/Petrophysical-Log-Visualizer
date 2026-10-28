@@ -81,7 +81,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CurveRolesTests.cs" />
     <Compile Include="DepthConditioningTests.cs" />
+    <Compile Include="DepthUnitsTests.cs" />
     <Compile Include="LasDataParserTests.cs" />
     <Compile Include="LasHeaderParserTests.cs" />
     <Compile Include="LasLoaderTests.cs" />

@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CurveRoles.cs" />
+    <Compile Include="CurveRules.cs" />
     <Compile Include="DepthConditioning.cs" />
+    <Compile Include="DepthUnits.cs" />
     <Compile Include="LasData.cs" />
     <Compile Include="LasDataParser.cs" />
     <Compile Include="LasHeader.cs" />

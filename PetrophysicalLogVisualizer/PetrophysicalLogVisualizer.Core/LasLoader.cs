@@ -15,7 +15,9 @@ namespace PetrophysicalLogVisualizer.Core
         public LasHeader Header { get; set; }
         public LasData Data { get; set; }
         public MissingValueResult Missing { get; set; }
+        public DepthUnitResult DepthUnit { get; set; }
         public DepthResult Depth { get; set; }
+        public RoleResult Roles { get; set; }
         public bool Failed { get; set; }
 
         /// <summary>Header warnings, then data warnings, then loader messages, in that order.</summary>
@@ -66,8 +68,12 @@ namespace PetrophysicalLogVisualizer.Core
                 {
                     result.Missing = MissingValues.Apply(result.Data, result.Header);
                     result.Issues.AddRange(result.Missing.Warnings);
+                    result.DepthUnit = DepthUnits.Apply(result.Data, result.Header);   // before the step check: both must be in feet
+                    result.Issues.AddRange(result.DepthUnit.Warnings);
                     result.Depth = DepthConditioning.Apply(result.Data, result.Header);
                     result.Issues.AddRange(result.Depth.Warnings);
+                    result.Roles = CurveRoles.Apply(result.Data, result.Header);
+                    result.Issues.AddRange(result.Roles.Warnings);
                 }
             }
             catch (Exception ex)
