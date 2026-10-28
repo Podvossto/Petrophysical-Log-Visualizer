@@ -89,6 +89,7 @@
     <Compile Include="LasHeaderParserTests.cs" />
     <Compile Include="LasLoaderTests.cs" />
     <Compile Include="MissingValuesTests.cs" />
+    <Compile Include="PlotExporterTests.cs" />
     <Compile Include="SmokeTests.cs" />
     <Compile Include="WellPlotModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,6 +105,10 @@
     <ProjectReference Include="..\PetrophysicalLogVisualizer.Core\PetrophysicalLogVisualizer.Core.csproj">
       <Project>{03b707cb-1f77-4be3-8060-f6f53ba540c8}</Project>
       <Name>PetrophysicalLogVisualizer.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PetrophysicalLogVisualizer.App\PetrophysicalLogVisualizer.App.csproj">
+      <Project>{5cd0b71d-81b6-47be-a912-27c38e4e5a05}</Project>
+      <Name>PetrophysicalLogVisualizer.App</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

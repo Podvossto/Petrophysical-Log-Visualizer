@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlotExporter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="WellPlotRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
